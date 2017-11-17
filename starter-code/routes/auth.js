@@ -72,6 +72,7 @@ router.get('/login', (req, res, next) => {
 router.post('/login', (req, res, next) => {
   const emailInput = req.body.email;
   const passwordInput = req.body.password;
+  const {email, password} = req.body;
 
   if (emailInput === '' || passwordInput === '') {
     res.render('auth/login', {
@@ -79,7 +80,26 @@ router.post('/login', (req, res, next) => {
     });
     return;
   }
-
+// User.findOne({ email: emailInput })
+//   .then(user => {
+//         if (bcrypt.compareSync(passwordInput, user.password)) {
+//           req.session.user.currentUser = user;
+//           res.redirect('/');
+// }else{
+//         return res.render('auth/login', {
+//            errorMessage: 'Invalid password.'
+//         });
+//
+//         }
+//
+// }).catch(e => {
+//       return res.render('auth/login', {
+//           errorMessage: `there isnt an account with email $(email).`
+//
+//       });
+//
+//
+// });
   User.findOne({ email: emailInput }, (err, theUser) => {
     if (err || theUser === null) {
       res.render('auth/login', {
